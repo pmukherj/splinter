@@ -11,16 +11,63 @@
 #include <Catch.h>
 #include <testfunction.h>
 #include <testfunctions.h>
+#include <iostream>
+#include <definitions.h>
+#include <datatable.h>
+#include <bsplineapproximant.h>
 
+using namespace std;
+using namespace SPLINTER;
 
 int main(int argc, char *argv[]) {
-    setupTestFunctions();
+    /*setupTestFunctions();
 
     int result = Catch::Session().run(argc, argv);
 
     tearDownTestFunctions();
 
-    return result;
+    return result;*/
+
+    DataTable table;
+
+    vector<double> x(4);
+    double y;
+
+    auto f = [](vector<double> x){
+        double res = 1.0;
+        for (auto _x : x) {
+            res *= _x;
+        }
+        return res;
+    };
+
+    std::cout << "Adding samples" << std::endl;
+    double from = 0.0, to = 8.0, step = 1.0;
+    for (double x0 = from; x0 < to; x0 += step) {
+        x.at(0) = x0;
+        for (double x1 = from; x1 < to; x1 += step) {
+            x.at(1) = x1;
+            for (double x2 = from; x2 < to; x2 += step) {
+                x.at(2) = x2;
+                for (double x3 = from; x3 < to; x3 += step) {
+                    x.at(3) = x3;
+
+                    y = f(x);
+
+                    table.addSample(x, y);
+                }
+            }
+        }
+    }
+
+
+    std::cout << "Building linear BSpline from " << table.getNumSamples() << " samples" << std::endl;
+
+    BSplineApproximant bspline(table, BSplineType::LINEAR);
+
+    std::cout << "Finished building BSpline" << std::endl;
+
+    return 0;
 }
 
 
