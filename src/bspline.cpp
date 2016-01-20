@@ -16,6 +16,24 @@
 #include <iostream>
 #include <utilities.h>
 
+
+
+
+namespace std
+{
+
+template <typename T>
+
+std::string to_string(T value)
+{
+  std::ostringstream os ;
+  os << value ;
+  return os.str() ;
+}
+
+}
+
+
 namespace SPLINTER
 {
 
@@ -108,7 +126,7 @@ DenseMatrix BSpline::evalJacobian(DenseVector x) const
 DenseMatrix BSpline::evalHessian(DenseVector x) const
 {
     if (!pointInDomain(x))
-    {        
+    {
         throw Exception("BSpline::evalHessian: Evaluation at point outside domain.");
     }
 
