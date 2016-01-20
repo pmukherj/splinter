@@ -16,9 +16,6 @@
 #include <iostream>
 #include <utilities.h>
 
-
-
-
 namespace std
 {
 
@@ -32,7 +29,6 @@ std::string to_string(T value)
 }
 
 }
-
 
 namespace SPLINTER
 {

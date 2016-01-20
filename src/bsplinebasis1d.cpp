@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <utilities.h>
 #include <iostream>
+#include <boost/math/special_functions/gamma.hpp>
 
 namespace SPLINTER
 {
@@ -102,7 +103,7 @@ SparseVector BSplineBasis1D::evaluateDerivative(double x, int r) const
         SparseMatrix DR = buildBasisMatrix(x, knotIndex, i, true);
         B = B*DR;
     }
-    double factorial = std::tgamma(p+1)/std::tgamma(p-r+1);
+    double factorial = boost::math::tgamma(p+1)/boost::math::tgamma(p-r+1);
     B = B*factorial;
 
     assert(B.cols() == p+1);
@@ -447,7 +448,7 @@ SparseMatrix BSplineBasis1D::buildKnotInsertionMatrix(const std::vector<double> 
 void BSplineBasis1D::supportHack(double &x) const
 {
     if (x == knots.back())
-        x = std::nextafter(x, std::numeric_limits<double>::lowest());
+        x = boost::math::nextafter(x, std::numeric_limits<double>::lowest());
 }
 
 /*
