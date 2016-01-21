@@ -448,7 +448,8 @@ SparseMatrix BSplineBasis1D::buildKnotInsertionMatrix(const std::vector<double> 
 void BSplineBasis1D::supportHack(double &x) const
 {
     if (x == knots.back())
-        x = boost::math::nextafter(x, std::numeric_limits<double>::lowest());
+        x = x + 0.000000001; //VERY shitty hack
+        //x = boost::math::nextafter(x, std::numeric_limits<double>::lowest());
 }
 
 /*
