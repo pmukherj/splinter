@@ -12,6 +12,41 @@
 #include <utilities.h>
 #include <iostream>
 
+#ifndef _GLIBCXX_USE_C99_MATH_TR1
+namespace std
+{
+  constexpr float
+  tgamma(float __x)
+  { return __builtin_tgammaf(__x); }
+
+  constexpr long double
+  tgamma(long double __x)
+  { return __builtin_tgammal(__x); }
+
+  template<typename _Tp>
+    constexpr typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
+                                              double>::__type
+    tgamma(_Tp __x)
+    { return __builtin_tgamma(__x); }
+
+  constexpr float
+  nextafter(float __x, float __y)
+  { return __builtin_nextafterf(__x, __y); }
+
+  constexpr long double
+  nextafter(long double __x, long double __y)
+  { return __builtin_nextafterl(__x, __y); }
+
+  template<typename _Tp, typename _Up>
+    constexpr typename __gnu_cxx::__promote_2<_Tp, _Up>::__type
+    nextafter(_Tp __x, _Up __y)
+    {
+      typedef typename __gnu_cxx::__promote_2<_Tp, _Up>::__type __type;
+      return nextafter(__type(__x), __type(__y));
+    }
+}
+#endif
+
 namespace SPLINTER
 {
 
